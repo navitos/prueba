@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { ShoppingCart, Search } from 'lucide-react'
+import UserMenu from './UserMenu'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -22,14 +23,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <ShoppingCart className="h-6 w-6 mr-2" />
               Cart
             </Link>
-            <div className="flex items-center space-x-4">
-              <Link href="/login">
-                <Button variant="ghost">Sign In</Button>
-              </Link>
-              <Link href="/register">
-                <Button variant="outline">Register</Button>
-              </Link>
-            </div>
+            <UserMenu />
           </nav>
         </div>
       </header>
