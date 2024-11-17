@@ -6,8 +6,8 @@ import Image from 'next/image'
 import { Trash2 } from 'lucide-react'
 
 const cartItems = [
-  { id: 1, name: "Purple Headphones", price: 99.99, quantity: 1, image: "/placeholder.svg?height=100&width=100" },
-  { id: 2, name: "Lavender Smartwatch", price: 199.99, quantity: 2, image: "/placeholder.svg?height=100&width=100" },
+  { id: 1, name: "Goku ssj", price: 99.99, quantity: 1, image: "/placeholder.svg?height=100&width=100" },
+  { id: 2, name: "Naruto sasuke", price: 99.99, quantity: 2, image: "/placeholder.svg?height=100&width=100" },
 ]
 
 export default function Cart() {

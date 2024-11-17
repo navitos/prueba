@@ -11,9 +11,9 @@ export default function ProductDetail() {
 
   const product = {
     id: 1,
-    name: "Purple Headphones",
+    name: "Goku ssj",
     price: 99.99,
-    description: "Experience crystal-clear sound with our premium Purple Headphones. Featuring noise-cancellation technology and a comfortable over-ear design, these headphones are perfect for music lovers and professionals alike.",
+    description: "Es goku bro, quien no quiere a un goku en su vida, compra ya, aprovecha.",
     image: "/placeholder.svg?height=400&width=400",
     rating: 4.5,
     reviews: 128

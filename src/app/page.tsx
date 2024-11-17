@@ -5,10 +5,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 const products = [
-  { id: 1, name: "Purple Headphones", price: 99.99, image: "/placeholder.svg?height=200&width=200" },
-  { id: 2, name: "Lavender Smartwatch", price: 199.99, image: "/placeholder.svg?height=200&width=200" },
-  { id: 3, name: "Amethyst Laptop", price: 999.99, image: "/placeholder.svg?height=200&width=200" },
-  { id: 4, name: "Violet Smartphone", price: 599.99, image: "/placeholder.svg?height=200&width=200" },
+  { id: 1, name: "Goku ssj", price: 99.99, image: "/placeholder.svg?height=200&width=200" },
+  { id: 2, name: "Naruto sasuke", price: 199.99, image: "/placeholder.svg?height=200&width=200" },
+  { id: 3, name: "Camara canon 1976", price: 999.99, image: "/placeholder.svg?height=200&width=200" },
+  { id: 4, name: "Tio rico 1990", price: 599.99, image: "/placeholder.svg?height=200&width=200" },
 ]
 
 export default function Home() {
