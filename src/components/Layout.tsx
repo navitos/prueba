@@ -22,7 +22,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <ShoppingCart className="h-6 w-6 mr-2" />
               Cart
             </Link>
-            <Button variant="ghost">Sign In</Button>
+            <div className="flex items-center space-x-4">
+              <Link href="/login">
+                <Button variant="ghost">Sign In</Button>
+              </Link>
+              <Link href="/register">
+                <Button variant="outline">Register</Button>
+              </Link>
+            </div>
           </nav>
         </div>
       </header>
