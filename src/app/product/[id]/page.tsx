@@ -11,10 +11,10 @@ export default function ProductDetail() {
 
   const product = {
     id: 1,
-    name: "Camisa G",
+    name: "Goku ssj",
     price: 99.99,
-    description: "Camisa bien cool bro",
-    image: "/images/products/camisag.webp",
+    description: "Es goku bro, quien no quiere a un goku en su vida, aprovecha y compra bro",
+    image: "/images/products/gokussj.avif",
     rating: 4.5,
     reviews: 128
   }
