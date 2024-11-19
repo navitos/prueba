@@ -11,8 +11,8 @@ import Image from 'next/image'
 
 // Mock data for the cart items
 const cartItems = [
-  { id: 1, name: "Camiseta G", price: 99.99, quantity: 1, image: "/images/products/camisag.webp" },
-  { id: 2, name: "Sudadera N", price: 69.99, quantity: 2, image: "/images/products/sudaderan.jpg" },
+  { id: 1, name: "Goku ssj", price: 99.99, quantity: 1, image: "/images/products/gokussj.avif" },
+  { id: 2, name: "Sudadera N", price: 69.99, quantity: 2, image: "/images/products/naruto.avif" },
 ]
 
 export default function Checkout() {

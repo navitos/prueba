@@ -4,20 +4,20 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 const products = [
-  { id: 1, name: "Camiseta G", price: 99.99, image: "/images/products/camisag.webp" },
-  { id: 2, name: "Sudadera N", price: 69.99, image: "/images/products/sudaderan.jpg" },
+  { id: 1, name: "Goku ssj", price: 99.99, image: "/images/products/gokussj.avif" },
+  { id: 2, name: "Naruto hokage", price: 69.99, image: "/images/products/naruto.avif" },
   { id: 3, name: "Chaqueta Vintage 1976", price: 999.99, image: "/images/products/vintage.webp" },
-  { id: 4, name: "Camiseta 1990", price: 599.99, image: "/images/products/1990.jfif" },
-  { id: 5, name: "Pantalones Cargo Negros", price: 129.99, image: "/images/products/cargo.webp" },
-  { id: 6, name: "Gorra Anime Hunter X", price: 39.99, image: "/images/products/hxh.jpg" },
-  { id: 7, name: "Vestido Floral Retro", price: 149.99, image: "/images/products/floral.jpg" },
-  { id: 8, name: "Zapatos Deportivos 2024", price: 249.99, image: "/images/products/zapatos.webp" },
+  { id: 4, name: "Camara 1990", price: 599.99, image: "/images/products/camara.jpg" },
+  { id: 5, name: "Reloj de mano", price: 129.99, image: "/images/products/reloj.jpg" },
+  { id: 6, name: "Gorra Anime Hunter X", price: 39.99, image: "/images/products/hxh.avif" },
+  { id: 7, name: "Revista condorito", price: 149.99, image: "/images/products/condorito.jpg" },
+  { id: 8, name: "Manga one piece vol 100", price: 249.99, image: "/images/products/op.webp" },
 ]
 
 export default function Home() {
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6 text-purple-800">Welcome to VIDE & CHIC</h1>
+      <h1 className="text-3xl font-bold mb-6 text-purple-800">Welcome to GRATUS</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {products.map((product) => (
           <Card key={product.id} className="flex flex-col">

@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen flex flex-col bg-purple-50">
       <header className="bg-purple-700 text-white p-4">
         <div className="container mx-auto flex items-center justify-between">
-          <Link href="/" className="text-2xl font-bold">VIDE & CHIC</Link>
+          <Link href="/" className="text-2xl font-bold">GRATUS</Link>
           <div className="flex-1 mx-4">
             <form className="flex">
               <Input type="search" placeholder="Search products..." className="w-full" />
@@ -32,7 +32,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </main>
       <footer className="bg-purple-800 text-white p-4">
         <div className="container mx-auto text-center">
-          © 2024 VIDE & CHIC. All rights reserved.
+          © 2024 GRATUS. All rights reserved.
         </div>
       </footer>
     </div>

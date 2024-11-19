@@ -23,7 +23,7 @@ export default function Register() {
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center text-purple-800">Create Account</CardTitle>
-          <CardDescription className="text-center">Join VIDE & CHIC today</CardDescription>
+          <CardDescription className="text-center">Join GRATUS today</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
@@ -74,12 +74,12 @@ export default function Register() {
                 />
               </div>
             </div>
-            <Button type="submit" className="w-full mt-6 bg-purple-600 hover:bg-purple-700">Create your VIDE & CHIC account</Button>
+            <Button type="submit" className="w-full mt-6 bg-purple-600 hover:bg-purple-700">Create your GRATUS account</Button>
           </form>
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
           <div className="text-sm text-center">
-            By creating an account, you agree to VIDE & CHICs&apos;s <Link href="/conditions" className="text-purple-600 hover:underline">Conditions of Use</Link> and <Link href="/privacy" className="text-purple-600 hover:underline">Privacy Notice</Link>.
+            By creating an account, you agree to GRATUS&apos;s <Link href="/conditions" className="text-purple-600 hover:underline">Conditions of Use</Link> and <Link href="/privacy" className="text-purple-600 hover:underline">Privacy Notice</Link>.
           </div>
           <div className="text-sm text-center">
             Already have an account? <Link href="/login" className="text-purple-600 hover:underline">Sign in</Link>
