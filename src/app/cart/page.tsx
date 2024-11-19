@@ -6,8 +6,8 @@ import Image from 'next/image'
 import { Trash2 } from 'lucide-react'
 
 const cartItems = [
-  { id: 1, name: "Goku ssj", price: 99.99, quantity: 1, image: "/placeholder.svg?height=100&width=100" },
-  { id: 2, name: "Naruto sasuke", price: 99.99, quantity: 2, image: "/placeholder.svg?height=100&width=100" },
+  { id: 1, name: "Camiseta G", price: 99.99, quantity: 1, image: "/images/products/camisag.webp" },
+  { id: 2, name: "Sudadera N", price: 69.99, quantity: 2, image: "/images/products/sudaderan.jpg" },
 ]
 
 export default function Cart() {
@@ -45,7 +45,7 @@ export default function Cart() {
           </div>
         </CardContent>
         <CardFooter>
-          <Button className="w-full bg-purple-600 hover:bg-purple-700">Proceed to Checkout</Button>
+          <Button className="w-full bg-purple-600 hover:bg-purple-700"><a href="/checkout">Proceed to Checkout</a></Button>
         </CardFooter>
       </Card>
     </div>

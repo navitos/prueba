@@ -1,20 +1,23 @@
-import Layout from './layout'
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Image from 'next/image'
 import Link from 'next/link'
 
 const products = [
-  { id: 1, name: "Goku ssj", price: 99.99, image: "/favicon.ico?height=200&width=200" },
-  { id: 2, name: "Naruto sasuke", price: 199.99, image: "/favicon.ico?height=200&width=200" },
-  { id: 3, name: "Camara canon 1976", price: 999.99, image: "/favicon.ico?height=200&width=200" },
-  { id: 4, name: "Tio rico 1990", price: 599.99, image: "/favicon.ico?height=200&width=200" },
+  { id: 1, name: "Camiseta G", price: 99.99, image: "/images/products/camisag.webp" },
+  { id: 2, name: "Sudadera N", price: 69.99, image: "/images/products/sudaderan.jpg" },
+  { id: 3, name: "Chaqueta Vintage 1976", price: 999.99, image: "/images/products/vintage.webp" },
+  { id: 4, name: "Camiseta 1990", price: 599.99, image: "/images/products/1990.jfif" },
+  { id: 5, name: "Pantalones Cargo Negros", price: 129.99, image: "/images/products/cargo.webp" },
+  { id: 6, name: "Gorra Anime Hunter X", price: 39.99, image: "/images/products/hxh.jpg" },
+  { id: 7, name: "Vestido Floral Retro", price: 149.99, image: "/images/products/floral.jpg" },
+  { id: 8, name: "Zapatos Deportivos 2024", price: 249.99, image: "/images/products/zapatos.webp" },
 ]
 
 export default function Home() {
   return (
-    <Layout>
-      <h1 className="text-3xl font-bold mb-6 text-purple-800">Welcome to Gratus</h1>
+    <div>
+      <h1 className="text-3xl font-bold mb-6 text-purple-800">Welcome to VIDE & CHIC</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {products.map((product) => (
           <Card key={product.id} className="flex flex-col">
@@ -37,6 +40,6 @@ export default function Home() {
           </Card>
         ))}
       </div>
-    </Layout>
+    </div>
   )
 }

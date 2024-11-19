@@ -21,7 +21,7 @@ export default function Login() {
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center text-purple-800">Sign In</CardTitle>
-          <CardDescription className="text-center">to continue to Gratus</CardDescription>
+          <CardDescription className="text-center">to continue to VIDE & CHIC</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
@@ -54,10 +54,10 @@ export default function Login() {
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
           <div className="text-sm text-center">
-            By continuing, you agree to Gratus&apos;s <Link href="/conditions" className="text-purple-600 hover:underline">Conditions of Use</Link> and <Link href="/privacy" className="text-purple-600 hover:underline">Privacy Notice</Link>.
+            By continuing, you agree to VIDE & CHIC&apos;s <Link href="/conditions" className="text-purple-600 hover:underline">Conditions of Use</Link> and <Link href="/privacy" className="text-purple-600 hover:underline">Privacy Notice</Link>.
           </div>
           <div className="text-sm text-center">
-            New to Gratus? <Link href="/register" className="text-purple-600 hover:underline">Create your Gratus account</Link>
+            New to VIDE & CHIC? <Link href="/register" className="text-purple-600 hover:underline">Create your VIDE & CHIC account</Link>
           </div>
         </CardFooter>
       </Card>
