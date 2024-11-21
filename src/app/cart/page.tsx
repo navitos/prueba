@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function Cart() {
-  const { cartItems, removeFromCart, updateQuantity, getTotalPrice } = useCart();
+  const { cartItems, removeFromCart, updateQuantity } = useCart();
   const router = useRouter();
   const [isUpdating, setIsUpdating] = useState(false);  
 

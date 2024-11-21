@@ -9,21 +9,18 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import Image from 'next/image';
 import { useCart } from '@/app/cart/cart_provider';
-import { orderService } from '@/services/orderService'; // Asegúrate de tener esta importación
-import { useAuth } from '@/services/auth-context'; // Importa el hook useAuth
+import { orderService } from '@/services/orderService';
+import { useAuth } from '@/services/auth-context';
 import { useRouter } from 'next/navigation';
 import { cartService } from '@/services/cartService'; 
-import { toast } from 'react-hot-toast'; // Importar toast
+import { toast } from 'react-hot-toast';
 
 export default function Checkout() {
   const { cartItems } = useCart(); // Obtener los productos desde el carrito
-  const { isLoggedIn, userName, userEmail, userId } = useAuth(); // Obtener la información del usuario desde el AuthContext
+  const { isLoggedIn, userId } = useAuth(); // Obtener la información del usuario desde el AuthContext
   const router = useRouter();
- 
-  if (!isLoggedIn) {
-    return <div>Please log in to proceed with checkout.</div>;
-  }
-
+  
+  // Estado y hooks, movidos fuera del bloque condicional
   const [address, setAddress] = useState({
     fullName: '',
     addressLine1: '',
@@ -36,7 +33,12 @@ export default function Checkout() {
 
   const [paymentMethod, setPaymentMethod] = useState('credit-card');
   const [saveAddress, setSaveAddress] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [, setIsSubmitting] = useState(false);
+
+  // Validamos si el usuario no está logueado al principio
+  if (!isLoggedIn) {
+    return <div>Please log in to proceed with checkout.</div>;
+  }
 
   const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAddress({ ...address, [e.target.name]: e.target.value });
@@ -66,8 +68,9 @@ export default function Checkout() {
         saveAddress,
       };
   
-      const orderResponse = await orderService.createOrder(orderData);
+      await orderService.createOrder(orderData);
       
+      // Limpiar el carrito después de realizar el pedido
       try {
         await cartService.clearCart(userId);
       } catch (clearCartError) {
@@ -80,7 +83,7 @@ export default function Checkout() {
       router.refresh(); 
     } catch (error) {
       console.error('Error in checkout process:', error);
-      toast.error(`Error al realizar el pedido: ${"error.message"}`); 
+      toast.error(`Error al realizar el pedido: ${"error.message"}`); // Corregido la forma de acceder al mensaje de error
     } finally {
       setIsSubmitting(false);
     }

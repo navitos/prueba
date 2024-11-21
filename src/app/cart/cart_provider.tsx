@@ -17,9 +17,18 @@ interface CartItem {
   updatedAt?: string;
 }
 
+interface ProductDetails {
+  price: number;
+  image: string;
+}
+
+interface CartItemWithProduct extends CartItem, ProductDetails {
+  id: number;  
+}
+
 interface CartContextType {
-  cartItems: CartItem[];
-  addToCart: (product: CartItem) => void;
+  cartItems: CartItemWithProduct[]; 
+  addToCart: (product: CartItemWithProduct) => void;
   removeFromCart: (productId: number) => void;
   updateQuantity: (productId: number, quantity: number) => void;
   clearCart: () => void;
@@ -29,41 +38,40 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartItems, setCartItems] = useState<CartItemWithProduct[]>([]); 
   const { isLoggedIn, userId } = useAuth();  
 
   useEffect(() => {
     if (isLoggedIn && userId !== null) {
       const fetchCart = async () => {
         try {
-          const data = await cartService.getCart(userId);  
+          const data = await cartService.getCart(userId);
           console.log('Fetched cart data:', data);
-  
-          const productDetailsPromises = data.CartItems.map(async (cartItem: any) => { 
-            const productData = await productService.getProductById(cartItem.ProductId);  
+
+          const productDetailsPromises = data.CartItems.map(async (cartItem: CartItem) => { 
+            const productData = await productService.getProductById(cartItem.ProductId);
             return {
               ...cartItem,
-              ...productData,
-              id: cartItem.ProductId,
-              quantity: cartItem.quantity,
-              price: Number(productData.price),
+              ...productData, 
+              id: cartItem.ProductId,  
+              price: Number(productData.price),  
             };
           });
-  
-          const updatedCartItems = await Promise.all(productDetailsPromises); 
+
+          const updatedCartItems = await Promise.all(productDetailsPromises);
           console.log('Updated Cart Items:', updatedCartItems);
           setCartItems(updatedCartItems);  
-  
+
         } catch (error) {
           console.error("Error fetching cart:", error);
         }
       };
-  
+
       fetchCart();
     }
   }, [isLoggedIn, userId]);
 
-  const addToCart = async (product: CartItem) => {
+  const addToCart = async (product: CartItemWithProduct) => {
     if (userId === null) {
       console.log('User not logged in');
       return;

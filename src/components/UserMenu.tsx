@@ -18,7 +18,7 @@ import { toast } from 'react-hot-toast'
 export default function UserMenu() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [userName, setUserName] = useState('')
-  const [userEmail, setUserEmail] = useState('')
+  const [, setUserEmail] = useState('')
   const [userAvatar, setUserAvatar] = useState('')
   const router = useRouter()
 

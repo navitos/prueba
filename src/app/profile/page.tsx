@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
@@ -15,59 +15,50 @@ export default function Profile() {
   const [password, setPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [error, setError] = useState('')
-  
+
   useEffect(() => {
     const loadProfile = async () => {
       try {
         const user = await authService.getUserProfile()
         setName(user.name)
         setEmail(user.email)
-      } catch (err) {
-        setError('Failed to load profile')
+      } catch(_error) {
+        toast.error('Failed to load profile'); 
       }
     }
 
     loadProfile()
   }, [])
 
+  const handleProfileUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const updatedUser = await authService.updateProfile(name, email);
+      setName(updatedUser.name);
+      setEmail(updatedUser.email);
+      toast.success('Perfil actualizado con éxito'); 
+    } catch (_error) {
+      toast.error('Error al actualizar el perfil');
+    }
+  };
 
-const handleProfileUpdate = async (e: React.FormEvent) => {
-  e.preventDefault();
-  try {
-    const updatedUser = await authService.updateProfile(name, email);
-    setName(updatedUser.name);
-    setEmail(updatedUser.email);
-    toast.success('Perfil actualizado con éxito'); 
-  } catch (err) {
-    setError('Error al actualizar el perfil');
-    toast.error('Error al actualizar el perfil'); 
-  }
-};
+  const handlePasswordChange = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      toast.error('New passwords do not match');
+      return;
+    }
 
-  
-
-const handlePasswordChange = async (e: React.FormEvent) => {
-  e.preventDefault();
-  if (newPassword !== confirmPassword) {
-    setError('New passwords do not match');
-    toast.error('New passwords do not match'); // Notificación de error
-    return;
-  }
-
-  try {
-    await authService.updatePassword(password, newPassword); 
-    setPassword('');
-    setNewPassword('');
-    setConfirmPassword('');
-    toast.success('Tu contraseña ha sido actualizada con éxito'); 
-  } catch (err) {
-    setError('Error al cambiar la contraseña');
-    toast.error('Error al cambiar la contraseña'); 
-  }
-};
-
-  
+    try {
+      await authService.updatePassword(password, newPassword); 
+      setPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+      toast.success('Tu contraseña ha sido actualizada con éxito'); 
+    } catch (_error) {
+      toast.error('Error al cambiar la contraseña');
+    }
+  };
 
   return (
     <div className="container mx-auto p-4">

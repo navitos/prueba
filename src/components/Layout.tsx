@@ -8,16 +8,24 @@ import { ShoppingCart, Search } from "lucide-react";
 import UserMenu from "./UserMenu";
 import axios from "axios";
 
+// Define la interfaz Product
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+}
+
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const [query, setQuery] = useState<string>(""); // Texto ingresado por el usuario
-  const [searchResults, setSearchResults] = useState<any[]>([]); // Resultados de búsqueda
-  const [isSearching, setIsSearching] = useState<boolean>(false); // Indicador de estado de búsqueda
+  const [query, setQuery] = useState<string>(""); 
+  const [searchResults, setSearchResults] = useState<Product[]>([]);  
+  const [isSearching, setIsSearching] = useState<boolean>(false); 
 
   // Función para buscar productos
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim()) {
-      resetSearch(); // Reiniciar búsqueda si el input está vacío
+      resetSearch(); 
       return;
     }
 
@@ -26,7 +34,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       const response = await axios.get(
         `http://localhost:5000/api/products/search?query=${query}`
       );
-      setSearchResults(response.data);
+      setSearchResults(response.data); // response.data debe ser un arreglo de productos
     } catch (error) {
       console.error("Error buscando productos:", error);
     } finally {
@@ -97,7 +105,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         ) : query && searchResults.length === 0 ? (
           <p className="text-center text-gray-600">
-            No products found for "{query}"
+            No products found for {query}
           </p>
         ) : (
           children
