@@ -32,7 +32,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     setIsSearching(true);
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/products/search?query=${query}`
+        `https://gratus-backend-u73y.onrender.com/api/products/search?query=${query}`
       );
       setSearchResults(response.data); // response.data debe ser un arreglo de productos
     } catch (error) {

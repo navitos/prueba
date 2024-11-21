@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchProfile = async (token: string) => {
     try {
-      const response = await fetch('http://localhost:5000/api/users/profile', {
+      const response = await fetch('https://gratus-backend-u73y.onrender.com/api/users/profile', {
         method: 'GET',
         headers: { 'Authorization': `Bearer ${token}` },
       });
