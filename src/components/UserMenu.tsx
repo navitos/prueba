@@ -11,24 +11,30 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { User, LogOut } from 'lucide-react'
+import { User, LogOut, LogIn } from 'lucide-react'
 
 export default function UserMenu() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true) // TODO: Replace with actual auth state
-  const userName = 'John Doe' // TODO: Replace with actual user name
+  const [isLoggedIn, setIsLoggedIn] = useState(false) // Default to logged out
+  const [userName, setUserName] = useState('') // Initialize with empty string
+
+  const handleLogin = () => {
+    // TODO: Implement actual login logic
+    setIsLoggedIn(true)
+    setUserName('John Doe') // Set a default name for demonstration
+  }
 
   const handleLogout = () => {
-    // TODO: Implement logout logic
-    console.log('Logging out')
     setIsLoggedIn(false)
+    setUserName('')
   }
 
   if (!isLoggedIn) {
     return (
       <div className="flex items-center space-x-4">
-        <Link href="/login">
-          <Button variant="ghost">Sign In</Button>
-        </Link>
+        <Button variant="ghost" onClick={handleLogin}>
+          <LogIn className="mr-2 h-4 w-4" />
+          Sign In
+        </Button>
         <Link href="/register">
           <Button variant="outline">Register</Button>
         </Link>
