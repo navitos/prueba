@@ -1,30 +1,66 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { authService } from '@/services/authService'
 
 export default function Profile() {
-  const [name, setName] = useState('John Doe')
-  const [email, setEmail] = useState('john.doe@example.com')
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [error, setError] = useState('')
+  
+  useEffect(() => {
+    const loadProfile = async () => {
+      try {
+        const user = await authService.getUserProfile()
+        setName(user.name)
+        setEmail(user.email)
+      } catch (err) {
+        setError('Failed to load profile')
+      }
+    }
 
-  const handleProfileUpdate = (e: React.FormEvent) => {
-    e.preventDefault()
-    // TODO: Implement profile update logic
-    console.log('Profile update:', { name, email })
-  }
+    loadProfile()
+  }, [])
 
-  const handlePasswordChange = (e: React.FormEvent) => {
-    e.preventDefault()
-    // TODO: Implement password change logic
-    console.log('Password change:', { password, newPassword, confirmPassword })
-  }
+  const handleProfileUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const updatedUser = await authService.updateProfile(name, email);
+      setName(updatedUser.name);
+      setEmail(updatedUser.email);
+      alert('Profile updated successfully');
+    } catch (err) {
+      setError('Failed to update profile');
+    }
+  };
+  
+
+  const handlePasswordChange = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      setError('New passwords do not match');
+      return;
+    }
+  
+    try {
+      await authService.updatePassword(password, newPassword); 
+      setPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+      alert('Password changed successfully');
+    } catch (err) {
+      setError('Failed to change password');
+    }
+  };
+  
 
   return (
     <div className="container mx-auto p-4">

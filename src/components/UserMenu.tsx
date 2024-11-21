@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import {
@@ -12,26 +12,65 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { User, LogOut, LogIn } from 'lucide-react'
+import { useRouter } from 'next/navigation'; 
 
 export default function UserMenu() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false) // Default to logged out
-  const [userName, setUserName] = useState('') // Initialize with empty string
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [userName, setUserName] = useState('')
+  const [userEmail, setUserEmail] = useState('')
+  const [userAvatar, setUserAvatar] = useState('')
+  const router = useRouter()
 
-  const handleLogin = () => {
-    // TODO: Implement actual login logic
-    setIsLoggedIn(true)
-    setUserName('John Doe') // Set a default name for demonstration
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token) {
+   
+      fetchProfile(token)
+    } else {
+  
+      setIsLoggedIn(false)
+    }
+  }, []) 
+
+  const fetchProfile = async (token: string) => { 
+    try {
+      const response = await fetch('http://localhost:5000/api/users/profile', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json()
+        setUserName(data.name)
+        setUserEmail(data.email)
+        setUserAvatar(data.avatar || '/placeholder.svg')
+        setIsLoggedIn(true) 
+        router.refresh() 
+      } else {
+        setIsLoggedIn(false) 
+      }
+    } catch (error) {
+      console.error('Error fetching profile:', error)
+      setIsLoggedIn(false) 
+    }
   }
 
   const handleLogout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
     setIsLoggedIn(false)
     setUserName('')
+    setUserEmail('')
+    setUserAvatar('')
+    router.refresh() 
   }
 
   if (!isLoggedIn) {
     return (
       <div className="flex items-center space-x-4">
-        <Button variant="ghost" onClick={handleLogin}>
+        <Button variant="ghost" onClick={() => router.push('/login')}>
           <LogIn className="mr-2 h-4 w-4" />
           Sign In
         </Button>
@@ -41,13 +80,12 @@ export default function UserMenu() {
       </div>
     )
   }
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <AvatarImage src="/placeholder.svg?height=32&width=32" alt={userName} />
+            <AvatarImage src={userAvatar} alt={userName} />
             <AvatarFallback>{userName.split(' ').map(n => n[0]).join('')}</AvatarFallback>
           </Avatar>
         </Button>

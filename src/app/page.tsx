@@ -1,7 +1,9 @@
+'use client'
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Image from 'next/image'
 import Link from 'next/link'
+import { useAuth } from '@/services/auth-context' // Importa useAuth
 
 const products = [
   { id: 1, name: "Goku ssj", price: 99.99, image: "/images/products/gokussj.avif" },
@@ -15,9 +17,14 @@ const products = [
 ]
 
 export default function Home() {
+  const { isLoggedIn, userName } = useAuth(); // Obtén la información del contexto de autenticación
+
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6 text-purple-800">Welcome to GRATUS</h1>
+      <h1 className="text-3xl font-bold mb-6 text-purple-800">
+        {isLoggedIn ? `Welcome back, ${userName}!` : 'Welcome to GRATUS'}
+      </h1>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {products.map((product) => (
           <Card key={product.id} className="flex flex-col">

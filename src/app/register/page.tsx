@@ -1,21 +1,41 @@
-'use client'
+"use client"
 
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from 'next/link'
+import { authService } from '@/services/authService'
+import { useRouter } from 'next/navigation'; 
 
 export default function Register() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [error, setError] = useState('')
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: Implement registration logic
-    console.log('Registration attempt with:', { name, email, password, confirmPassword })
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match')
+      return
+    }
+
+    try {
+      
+      await authService.register(name, email, password)
+      console.log('Registration successful') 
+      router.push('/login'); 
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Registration failed. Please try again.')
+      } else {
+        setError('Registration failed. Please try again.')
+      }
+    }
   }
 
   return (
@@ -74,6 +94,7 @@ export default function Register() {
                 />
               </div>
             </div>
+            {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
             <Button type="submit" className="w-full mt-6 bg-purple-600 hover:bg-purple-700">Create your GRATUS account</Button>
           </form>
         </CardContent>

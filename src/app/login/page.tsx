@@ -1,20 +1,33 @@
-'use client'
+"use client"; 
 
-import { useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import Link from 'next/link'
+import { useState } from 'react';
+import { useRouter } from 'next/navigation'; 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from 'next/link';
+import { authService } from '@/services/authService'; 
 
 export default function Login() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // TODO: Implement login logic
-    console.log('Login attempt with:', { email, password })
-  }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await authService.login(email, password);
+      router.push('/'); 
+      router.refresh();
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Login failed. Please try again.');
+      } else {
+        setError('Login failed. Please try again.');
+      }
+    }
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-purple-50">
@@ -49,6 +62,7 @@ export default function Login() {
                 />
               </div>
             </div>
+            {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
             <Button type="submit" className="w-full mt-6 bg-purple-600 hover:bg-purple-700">Sign In</Button>
           </form>
         </CardContent>
@@ -62,5 +76,5 @@ export default function Login() {
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }
