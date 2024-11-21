@@ -13,6 +13,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { User, LogOut, LogIn } from 'lucide-react'
 import { useRouter } from 'next/navigation'; 
+import { toast } from 'react-hot-toast';
 
 export default function UserMenu() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -58,14 +59,16 @@ export default function UserMenu() {
   }
 
   const handleLogout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
-    setIsLoggedIn(false)
-    setUserName('')
-    setUserEmail('')
-    setUserAvatar('')
-    router.refresh() 
-  }
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setIsLoggedIn(false);
+    setUserName('');
+    setUserEmail('');
+    setUserAvatar('');
+    toast.success('Sesión cerrada exitosamente'); 
+    router.refresh();
+  };
+  
 
   if (!isLoggedIn) {
     return (

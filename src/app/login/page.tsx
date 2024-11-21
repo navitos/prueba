@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation'; 
@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from 'next/link';
 import { authService } from '@/services/authService'; 
+import toast from 'react-hot-toast'; 
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -18,6 +19,7 @@ export default function Login() {
     e.preventDefault();
     try {
       await authService.login(email, password);
+      toast.success("Sesión iniciada correctamente! Bienvenido a Gratus 😸!"); 
       router.push('/'); 
       router.refresh();
     } catch (err: unknown) {
@@ -26,6 +28,7 @@ export default function Login() {
       } else {
         setError('Login failed. Please try again.');
       }
+      toast.error('Login failed. Please try again.');  
     }
   };
 
