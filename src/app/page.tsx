@@ -22,12 +22,11 @@ interface Product {
 function Products() {
   const { isLoggedIn, userName } = useAuth();
 
-  // Uso de React Query para obtener los productos
   const { data: products = [], isLoading, isError, error, refetch } = useQuery<Product[], Error>({
-    queryKey: ['products'], // Clave única para este query
-    queryFn: productService.getAllProducts, // Función para obtener los datos
-    staleTime: 10000, // Los datos se consideran "frescos" durante 10 segundos
-    refetchOnWindowFocus: true, // Refresca automáticamente al enfocar la ventana
+    queryKey: ['products'], 
+    queryFn: productService.getAllProducts, 
+    staleTime: 10000, 
+    refetchOnWindowFocus: true,
   });
 
   if (isLoading) {

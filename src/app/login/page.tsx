@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from 'next/link';
 import { authService } from '@/services/authService'; 
-import toast from 'react-hot-toast'; 
+import toast from 'react-hot-toast';  
 
 export default function Login() {
   const [email, setEmail] = useState('');

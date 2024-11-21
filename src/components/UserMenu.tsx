@@ -11,9 +11,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { User, LogOut, LogIn } from 'lucide-react'
-import { useRouter } from 'next/navigation'; 
-import { toast } from 'react-hot-toast';
+import { User, LogOut, LogIn, BarChartBig } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { toast } from 'react-hot-toast'
 
 export default function UserMenu() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -25,15 +25,13 @@ export default function UserMenu() {
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
-   
       fetchProfile(token)
     } else {
-  
       setIsLoggedIn(false)
     }
-  }, []) 
+  }, [])
 
-  const fetchProfile = async (token: string) => { 
+  const fetchProfile = async (token: string) => {
     try {
       const response = await fetch('http://localhost:5000/api/users/profile', {
         method: 'GET',
@@ -47,14 +45,14 @@ export default function UserMenu() {
         setUserName(data.name)
         setUserEmail(data.email)
         setUserAvatar(data.avatar || '/placeholder.svg')
-        setIsLoggedIn(true) 
-        router.refresh() 
+        setIsLoggedIn(true)
+        router.refresh()
       } else {
-        setIsLoggedIn(false) 
+        setIsLoggedIn(false)
       }
     } catch (error) {
       console.error('Error fetching profile:', error)
-      setIsLoggedIn(false) 
+      setIsLoggedIn(false)
     }
   }
 
@@ -65,44 +63,54 @@ export default function UserMenu() {
     setUserName('');
     setUserEmail('');
     setUserAvatar('');
-    toast.success('Sesión cerrada exitosamente'); 
+    toast.success('Sesión cerrada exitosamente');
     router.refresh();
   };
-  
 
   if (!isLoggedIn) {
     return (
       <div className="flex items-center space-x-4">
-        <Button variant="ghost" onClick={() => router.push('/login')}>
+        <Button variant="ghost" onClick={() => router.push('/login')} className="text-base font-medium text-gray-700 hover:bg-gray-100">
           <LogIn className="mr-2 h-4 w-4" />
           Sign In
         </Button>
         <Link href="/register">
-          <Button variant="outline">Register</Button>
+          <Button variant="outline" className="text-base font-medium text-blue-600 hover:bg-blue-50">
+            Register
+          </Button>
         </Link>
       </div>
     )
   }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-          <Avatar className="h-8 w-8">
+        <Button variant="ghost" className="relative h-10 w-10 rounded-full shadow-md hover:shadow-lg focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+          <Avatar className="h-10 w-10">
             <AvatarImage src={userAvatar} alt={userName} />
-            <AvatarFallback>{userName.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+            <AvatarFallback className="text-white font-semibold">{userName.split(' ').map(n => n[0]).join('')}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
+      <DropdownMenuContent className="w-56 bg-white rounded-lg shadow-lg ring-1 ring-gray-200" align="end" forceMount>
         <DropdownMenuItem asChild>
-          <Link href="/profile" className="flex items-center">
-            <User className="mr-2 h-4 w-4" />
+          <Link href="/profile" className="flex items-center text-gray-700 hover:bg-gray-100 rounded-md py-2 px-3">
+            <User className="mr-2 h-5 w-5 text-gray-600" />
             <span>Profile</span>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogout} className="text-red-600">
-          <LogOut className="mr-2 h-4 w-4" />
+        <DropdownMenuItem asChild>
+          <Link href="/orders" className="flex items-center text-gray-700 hover:bg-gray-100 rounded-md py-2 px-3">
+            <BarChartBig className="mr-2 h-5 w-5 text-gray-600" />
+            <span>Mis pedidos</span>
+          </Link>
+        </DropdownMenuItem>
+
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={handleLogout} className="flex items-center text-red-600 hover:bg-red-50 rounded-md py-2 px-3">
+          <LogOut className="mr-2 h-5 w-5 text-red-600" />
           <span>Log out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>

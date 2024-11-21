@@ -2,8 +2,9 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Layout from '@/components/Layout';
-import { AuthProvider } from '@/services/auth-context'; // Importa el AuthProvider
-import { Toaster } from 'react-hot-toast'; // Importa Toaster
+import { AuthProvider } from '@/services/auth-context'; 
+import { Toaster } from 'react-hot-toast'; 
+import { CartProvider } from '@/app/cart/cart_provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,10 +21,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider>
-          <Layout>{children}</Layout>
-          <Toaster position="top-right" reverseOrder={false} />
+        <AuthProvider>  
+          <CartProvider> 
+            <Layout>{children}</Layout>
+          </CartProvider>
         </AuthProvider>
+        <Toaster position="top-right" reverseOrder={false} />
       </body>
     </html>
   );

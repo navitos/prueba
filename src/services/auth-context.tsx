@@ -1,8 +1,9 @@
-"use client"
+'use client';
 import { createContext, useState, useEffect, ReactNode, useContext } from 'react';
 
 interface AuthContextType {
   isLoggedIn: boolean;
+  userId: number | null; 
   userName: string;
   userEmail: string;
   userAvatar: string;
@@ -14,6 +15,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState<number | null>(null);  // Estado para almacenar el userId
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userAvatar, setUserAvatar] = useState('');
@@ -33,10 +35,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
       if (response.ok) {
         const data = await response.json();
+        setUserId(data.id);  // Almacenamos el userId
         setUserName(data.name);
         setUserEmail(data.email);
         setUserAvatar(data.avatar || '/placeholder.svg');
         setIsLoggedIn(true);
+        console.log("User ID fetched:", data.id);
       } else {
         setIsLoggedIn(false);
       }
@@ -54,13 +58,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
+    setUserId(null);  
     setUserName('');
     setUserEmail('');
     setUserAvatar('');
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, userName, userEmail, userAvatar, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, userId, userName, userEmail, userAvatar, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

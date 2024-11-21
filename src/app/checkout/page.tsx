@@ -1,21 +1,29 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import Image from 'next/image'
-
-// Mock data for the cart items
-const cartItems = [
-  { id: 1, name: "Goku ssj", price: 99.99, quantity: 1, image: "/images/products/gokussj.avif" },
-  { id: 2, name: "Sudadera N", price: 69.99, quantity: 2, image: "/images/products/naruto.avif" },
-]
+import { useState } from 'react';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import Image from 'next/image';
+import { useCart } from '@/app/cart/cart_provider';
+import { orderService } from '@/services/orderService'; // Asegúrate de tener esta importación
+import { useAuth } from '@/services/auth-context'; // Importa el hook useAuth
+import { useRouter } from 'next/navigation';
+import { cartService } from '@/services/cartService'; 
+import { toast } from 'react-hot-toast'; // Importar toast
 
 export default function Checkout() {
+  const { cartItems } = useCart(); // Obtener los productos desde el carrito
+  const { isLoggedIn, userName, userEmail, userId } = useAuth(); // Obtener la información del usuario desde el AuthContext
+  const router = useRouter();
+ 
+  if (!isLoggedIn) {
+    return <div>Please log in to proceed with checkout.</div>;
+  }
+
   const [address, setAddress] = useState({
     fullName: '',
     addressLine1: '',
@@ -24,22 +32,62 @@ export default function Checkout() {
     state: '',
     zipCode: '',
     country: '',
-  })
+  });
 
-  const [paymentMethod, setPaymentMethod] = useState('credit-card')
-  const [saveAddress, setSaveAddress] = useState(false)
+  const [paymentMethod, setPaymentMethod] = useState('credit-card');
+  const [saveAddress, setSaveAddress] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress({ ...address, [e.target.name]: e.target.value })
-  }
+    setAddress({ ...address, [e.target.name]: e.target.value });
+  };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // TODO: Implement order submission logic
-    console.log('Order submitted:', { address, paymentMethod, saveAddress })
-  }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (cartItems.length === 0) {
+      alert('Your cart is empty');
+      return;
+    }
+  
+    setIsSubmitting(true);
+    
+    try {
+      const orderData = {
+        userId, 
+        items: cartItems.map(item => ({
+          productId: item.id,
+          quantity: item.quantity,
+          price: item.price,
+        })),
+        total: total,
+        shippingAddress: address,
+        paymentMethod,
+        saveAddress,
+      };
+  
+      const orderResponse = await orderService.createOrder(orderData);
+      
+      try {
+        await cartService.clearCart(userId);
+      } catch (clearCartError) {
+        console.error('Error clearing cart:', clearCartError);
+      }
+      
+      toast.success('Pedido realizado exitosamente! Mantente actualizado en el apartado de "Mis pedidos" para verificar el estado del tuyo.');
+      
+      router.push('/'); 
+      router.refresh(); 
+    } catch (error) {
+      console.error('Error in checkout process:', error);
+      toast.error(`Error al realizar el pedido: ${"error.message"}`); 
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
-  const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  // Calcular el total del carrito
+  const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
     <div className="container mx-auto p-4">
@@ -195,12 +243,12 @@ export default function Checkout() {
             </CardContent>
             <CardFooter>
               <Button className="w-full bg-purple-600 hover:bg-purple-700" onClick={handleSubmit}>
-                Place Order
+                Realizar orden
               </Button>
             </CardFooter>
           </Card>
         </div>
       </div>
     </div>
-  )
+  );
 }
